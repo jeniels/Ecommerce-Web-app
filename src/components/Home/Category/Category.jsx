@@ -3,7 +3,9 @@ import "./Category.scss";
 
 const Category = ({ categories }) => {
     const navigate = useNavigate();
+    console.log(categories);
     return (
+      
         <div className="shop-by-category">
             <div className="categories">
                 {categories?.data?.map((item) => (
@@ -15,7 +17,7 @@ const Category = ({ categories }) => {
                         <img
                             src={
                                 process.env.REACT_APP_STRIPE_APP_DEV_URL +
-                                item.attributes.img.data.attributes.url
+                                item.attributes.image.data[0].attributes.url
                             }
                         />
                     </div>

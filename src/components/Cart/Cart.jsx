@@ -4,23 +4,42 @@ import { BsCartX } from "react-icons/bs";
 import { Context } from "../../utils/context";
 import CartItem from "./CartItem/CartItem";
 import { loadStripe } from "@stripe/stripe-js";
+import {stripePromise} from "@stripe/react-stripe-js";
 import { makePaymentRequest } from "../../utils/api";
-
+import Home from "../Home/Home";
 import "./Cart.scss";
 
 const Cart = () => {
     const { cartItems, setShowCart, cartSubTotal } = useContext(Context);
-
-    const stripePromise = loadStripe(
-        process.env.REACT_APP_STRIPE_PUBLISHABLE_KEY
-    );
+    // const handlePayment = async () => {
+    // async function makePayment() {
+    //     const stripe = await stripePromise;
+    //     const requestBody = {
+    //         products:cartItems,
+    //     };
+    
+    //     const response = await fetch("http://localhost:1337/api/orders", {
+    //       method: "POST",
+    //       headers: { "Content-Type": "application/json" },
+    //       body: JSON.stringify(requestBody),
+    //     });
+    //     const session = await response.json();
+    //     await stripe.redirectToCheckout({ 
+    //       sessionId: session.id,
+    //     });
+    //   }
+    // }
+    
 
     const handlePayment = async () => {
         try {
             const stripe = await stripePromise;
             const res = await makePaymentRequest.post("/api/orders", {
-                products: cartItems,
-            });
+                products:cartItems,
+            } ,{
+                headers: {
+                    Authorization: "bearer " + process.env.REACT_APP_STRIPE_PUBLISHABLE_KEY,
+                },});
             await stripe.redirectToCheckout({
                 sessionId: res.data.stripeSession.id,
             });
@@ -51,7 +70,7 @@ const Cart = () => {
                     <div className="empty-cart">
                         <BsCartX />
                         <span>No products in the cart.</span>
-                        <button className="return-cta" onClick={() => {}}>
+                        <button className="return-cta" onClick={() => {<Home/>}}>
                             RETURN TO SHOP
                         </button>
                     </div>

@@ -7,6 +7,8 @@ import "./Header.scss";
 import Search from "./Search/Search";
 import { Context } from "../../utils/context";
 import Cart from "../Cart/Cart";
+import Category from "../Home/Category/Category";
+
 
 const Header = () => {
     const [scrolled, setScrolled] = useState(false);
@@ -36,10 +38,10 @@ const Header = () => {
                     <ul className="left">
                         <li onClick={() => navigate("/")}>Home</li>
                         <li onClick={() => navigate("/about")}>About</li>
-                        <li>Categories</li>
+                        
                     </ul>
                     <div className="center" onClick={() => navigate("/")}>
-                        JSDEVSTORE.
+                        JUSTBUY
                     </div>
                     <div className="right">
                         <TbSearch onClick={() => setSearchModal(true)} />
